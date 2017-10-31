@@ -15,7 +15,11 @@ class MyWin(QtWidgets.QMainWindow):
         QtWidgets.QWidget.__init__(self, parent)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        # You need to provide full path
+
+        self.ui.textEdit.setFontPointSize(12)  #Solution
+        self.ui.textEdit_2.setFontPointSize(12) #Solution
+        self.ui.textEdit_3.setFontPointSize(12) #Solution
+
         self.dom = xml.dom.minidom.parse('C:/Users/temp1/Desktop/git/Python_LearningPath/PyQt5_exercises/chapter5/learn.xml')
         self.collection = self.dom.documentElement
         self.linesArr = self.collection.getElementsByTagName("text")

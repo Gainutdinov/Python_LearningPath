@@ -15,8 +15,12 @@ class MyWin(QtWidgets.QMainWindow):
         QtWidgets.QWidget.__init__(self, parent)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        # You need to provide full path
-        self.dom = xml.dom.minidom.parse('C:/Users/temp1/Desktop/git/Python_LearningPath/PyQt5_exercises/chapter5/learn.xml')
+
+        self.ui.textEdit.setFontPointSize(12)  #Solution
+        self.ui.textEdit_2.setFontPointSize(12) #Solution
+        self.ui.textEdit_3.setFontPointSize(12) #Solution
+
+        self.dom = xml.dom.minidom.parse('C:/Users/temp1/Desktop/git/Python_LearningPath/PyQt5_exercises/chapter5/learn1.xml')
         self.collection = self.dom.documentElement
         self.linesArr = self.collection.getElementsByTagName("text")
 
@@ -30,9 +34,9 @@ class MyWin(QtWidgets.QMainWindow):
         random.shuffle(self.variants[1])
         random.shuffle(self.variants[2])
 
-        self.ui.textEdit.setText(self.text[0])
-        self.ui.textEdit_2.setText(self.text[1])
-        self.ui.textEdit_3.setText(self.text[2])
+        self.ui.textEdit.setHtml(self.text[0]) #solution
+        self.ui.textEdit_2.setHtml(self.text[1]) #solution
+        self.ui.textEdit_3.setHtml(self.text[2]) #solution
 
         self.ui.label.setText(self.questions[0])
         self.ui.label_2.setText(self.questions[1])
