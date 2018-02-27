@@ -8,7 +8,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class MyWin(QtWidgets.QMainWindow):
     
     lbs = []
-    rbs = [[''] * 10] * 15 # emply list 15x10
+    rbs = [] # [[''] * 10] * 15 # emply list 15x10 (numQ x numV)
+    numQ = 0
+    numV = 0
     bgrs = []
     labels = [] 
     variants = []
@@ -29,6 +31,11 @@ class MyWin(QtWidgets.QMainWindow):
         # assigning layout to the scrollarea
         self.verticalLayout = QtWidgets.QVBoxLayout(self.ui.scrollAreaWidgetContents)
         self.verticalLayout.setObjectName("verticalLayout")
+
+        # dinamically set up 2d array depending on the xml.db
+        self.rbs = [[''] * (self.numV+1)] * self.numQ
+
+
         # adding widgets to the scrollarea
         self.addWidgetsToInterface()
                 
@@ -43,7 +50,7 @@ class MyWin(QtWidgets.QMainWindow):
             self.linesMixed.append(self.fileRead[line])
         random.shuffle(self.linesMixed)
         self.r.close()
-        
+
         # write temporary xml with new mixed lines
         self.w = open("temp.xml", 'w', encoding='utf-8')
         self.w.write('''<?xml version="1.0" encoding="utf-8"?>\n<content>\n''')
@@ -57,10 +64,13 @@ class MyWin(QtWidgets.QMainWindow):
         self.dom = xml.dom.minidom.parse('temp.xml')
         self.collection = self.dom.documentElement
         self.linesArr = self.collection.getElementsByTagName("q")
+        self.numQ = len(self.linesArr)  #added
         for line in range(0, len(self.linesArr)):
             # label's text
             self.labels.append(self.linesArr[line].childNodes[0].data)
             # variants' text
+            if (len(self.linesArr[line].getAttribute('ans').split('**?**'))>self.numV):
+                self.numV = len(self.linesArr[line].getAttribute('ans').split('**?**'))
             self.variants.append(self.linesArr[line].getAttribute('ans').split('**?**'))
             # correct answer
             self.correct.append(self.linesArr[line].getAttribute('cor'))
@@ -69,7 +79,7 @@ class MyWin(QtWidgets.QMainWindow):
             random.shuffle(variant)
         # Deleting temporary file
         os.remove('temp.xml')
-    
+
     def addWidgetsToInterface(self):
         # adding widgets to the scrollarea
         for line in range (0, len(self.labels)):
@@ -100,9 +110,8 @@ class MyWin(QtWidgets.QMainWindow):
             message = "Your result is " + "<b style=color:'yellow';>%.2f</b>" % float(counter/len(self.bgrs)*100) + "%" 
         else: #green
             message = "Your result is " + "<b style=color:'green';>%.2f</b>" % float(counter/len(self.bgrs)*100) + "%" 
-        
-        self.labelStatus.setText(message) 
-        self.ui.statusbar.showMessage(message)
+
+        self.labelStatus.setText(message)
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
