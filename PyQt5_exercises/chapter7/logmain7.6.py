@@ -161,10 +161,20 @@ class MyWin(QtWidgets.QMainWindow):
                 self.correct[group].sort()
                 if self.correct[group] == chbCor:
                     counter += self.value[group]
-                correctThis = chbCor
+                if len(chbCor)>1:
+                    correctThis = ';'.join(chbCor)
+                else:
+                    correctThis = ''.join(chbCor)
+                if len(self.correct[group])>1:
+                    self.correct[group] = ';'.join(self.correct[group])
+                else:
+                    self.correct[group] = ''.join(self.correct[group])
+
+
                         
             self.logStr += 'Правильный ответ: %s' % self.correct[group] + '\n'
             self.logStr += 'Ответ пользователя: %s' % correctThis + '\n'
+            self.logStr += 'Коэффициент сложности: %s' % self.value[group] + '\n'
             self.logStr += '\n'
         # And this is the result! Rounded to 2 decimal points
         self.result = float(counter/sum(self.value)*100)
