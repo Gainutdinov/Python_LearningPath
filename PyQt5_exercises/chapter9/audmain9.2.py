@@ -116,7 +116,7 @@ class MyWin(QtWidgets.QMainWindow):
         self.pushButton.clicked.connect(self.play1)
         self.pushButton_3.clicked.connect(self.stop1)
         
-        self.horizontalSlider.sliderMoved.connect(self.changePosition)
+        #self.horizontalSlider.sliderMoved.connect(self.changePosition)
                 
         self.ui.pushButton.clicked.connect(self.finish)
                 
