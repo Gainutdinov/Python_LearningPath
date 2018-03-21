@@ -34,7 +34,8 @@ class MyWin(QtWidgets.QMainWindow):
     name1 = ''
     group1 = ''
     timeRes = 0
-    
+    timesListening = 4
+
     def __init__(self, parent=None):
         QtWidgets.QWidget.__init__(self, parent)
         self.ui = Ui_MainWindow()
@@ -156,12 +157,18 @@ class MyWin(QtWidgets.QMainWindow):
             tStr = currentTime.toString(format1) + " / " + totalTime.toString(format1)
         else:
             tStr = ''
-        self.labelDuration.setText(tStr)
+        if (self.timesListening - 1) < 0:
+            self.labelDuration.setText(tStr+' -осталось количество прослушиваний '+ '0')
+        else:
+            self.labelDuration.setText(tStr+' -осталось количество прослушиваний '+ str(self.timesListening - 1))
 
     def setState(self,state):
         if state != self.playerState:
             self.playerState = state
             if state == QMediaPlayer.StoppedState:
+                self.timesListening -= 1
+                if self.timesListening <= 0:
+                    self.pushButton.clicked.connect(self.stop1)
                 self.horizontalSlider.setEnabled(False)
                 self.pushButton_3.setEnabled(False)
                 self.pushButton.setIcon(self.style().standardIcon(QtWidgets.QStyle.SP_MediaPlay))
