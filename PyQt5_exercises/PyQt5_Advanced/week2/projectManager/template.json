@@ -1,0 +1,24 @@
+[
+    {
+        "name": "Folder",
+        "content": []
+    },
+    {
+        "name": "Folder",
+        "content": []
+    },
+    {
+        "name": "Folder",
+        "content": [
+            {
+                "name": "111",
+                "content": [
+                    {
+                        "name": "222",
+                        "content": []
+                    }
+                ]
+            }
+        ]
+    }
+]
