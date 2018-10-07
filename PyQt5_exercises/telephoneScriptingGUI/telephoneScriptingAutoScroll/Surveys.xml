@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    GENERAL INFORMATION
+    
+-->
+<content dataVersion="1">
+    <survey>
+        <questionnaire name='Issue with Mobile phone'>
+            <q type='rb' ans = "2**?**3**?**4**?**5" text="This is your first question?">
+                <q type='rb' g_ans="2" ans = "AAA**?**BBB**?**CCC**?**DDD" text="Second Question - If you chose '2' ?">
+                    <q type='rb' g_ans="AAA" ans = "111**?**222**?**333**?**333**?**44333**?**443**?**999" text="Third Question - This is the pre-last question and you chose 'AAA'!">
+                        <q type='rb' g_ans="111" ans = "ANS1**?**ANS2**?**ANS3" text="Fourth Question - This is the last question and you chose '111'!">
+                        </q>
+                    </q>
+                </q>
+                <q type='le' g_ans="3" holder="first" text="If you Chose '3' ?">
+                    <q type='rb' ans = "CustomAnswer**?**OptimalAnswer**?**Ideal Answer" text="Line Edit first sibling, If you Chose 'EEE' ?">
+                        <q type='le' g_ans="3" holder="second" text="If you Chose '3' ?">
+                        </q>
+                    </q>
+                </q>
+                <q type='le' g_ans="4" holder="second" text="If you Chose '4' ?">
+                </q>
+            </q>
+        </questionnaire>
+        <questionnaire name='Problem with Personal computer'>
+            <q type='rb' ans = "2PC**?**3PC**?**4PC**?**5PC" text="111First"></q>
+        </questionnaire>
+        <questionnaire name='Questions about MS SQL'>
+            <q type='rb' ans = "2DB**?**3DB**?**4DB**?**5DB">___First
+                <q type='rb' g_ans="2" ans = "AAA**?**BBB**?**CCC**?**DDD" text="Secret question?">
+                    <q type='rb' g_ans="AAA" ans = "111**?**222**?**333**?**444" text="FinalQuestion11">
+                    </q>
+                </q>
+            </q>
+        </questionnaire>
+    </survey>
+</content>
