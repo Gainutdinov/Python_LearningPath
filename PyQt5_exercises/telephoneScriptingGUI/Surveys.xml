@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    GENERAL INFORMATION
+
+    tags meanings
+        <q></q> тег вопроса, здесь храниться информация по вопросу
+        <questionnare></questionnare> тег опросника и "name='ФОБО'" атрибут есть место где храниться название опросника
+
+    attributes meanings
+        type='rb' вопрос типа radio button, в 99% нужно выбирать данный тип вопроса
+        type='le' вопрос типа line edit
+        ans="1**?**2" варинты ответов, которые будут отображены при появление соответствующего вопроса, здесь сочетание "**?**" является уникальным разделителем вариантов ответов, в текущем примере в качестве вариантов ответов будут отображены '1' и '2'
+        text="Ваш вопрос" здесь непосредственно сам вопрос
+        g_ans='1' если в родительском вопросе был выбран вариант ответа '1' то данный вопрос будет следующим, см. ниже
+
+    Comments
+        первый вопрос всегда не имеет g_ans атрибута, т.к. это первый вопрос!
+        Во всех последующих вопросах, кроме первого g_ans атрибут является обязательным!
+
+    Scheme overview
+        <Content>
+            <survey>
+                <questionnaire name='Название опросника'>
+                    <q type='rb' ans = "A**?**B**?**C" text="Текст первого вопроса">    
+                        <q type='rb' g_ans="A" ans = "A_1**?**A_2**?**A_3" text="Второй вопрос, если в предыдущем вопросе был выбран ответ 'A' ">
+                            <q type='rb' g_ans="A_1" ans = "A_1_1**?**A_1_2**?**A_1_3" text="Третий вопрос, если в предыдущем вопросе был выбран ответ 'A_1' ">
+                            </q>
+                        </q>
+                        <q type='rb' g_ans="B" ans = "B_3**?**B_3**?**B_3" text="Второй вопрос, если в предыдущем вопросе был выбран ответ 'B' >
+                        </q>
+                        <q type='rb' g_ans="C" ans = "C_3**?**C_3**?**C_3" text="Второй вопрос, если в предыдущем вопросе был выбран ответ 'C' >
+                        </q>
+                    </q>
+                </questionnaire>
+            </survey>
+        </Content>
+
+
+-->
+<content dataVersion="1">
+    <survey>
+        <questionnaire name='ФОБО'>
+            <q type='rb' ans = "SALES**?**LOGISTICS**?**REPORTER**?**BACK OFFICE**?**5" text="В каком модуле произошла ошибка?">
+                <q type='rb' g_ans="LOGISTICS" ans = "Вопрос связан с инвентаризацией**?**Вопрос связан с отгрузкой товаров**?**Вопрос связан с приемкой товаров**?**Вопрос связан с списанием товаров" text="Следующий вопрос - вы выбрали 'LOGISTICS' ?">
+                    <q type='rb' g_ans="Вопрос связан с инвентаризацией" ans = "Инвентаризация не запускается**?**Инвентаризация не завершается**?**333**?**333**?**44333**?**443**?**999" text="Третий вопрос-это предпоследний вопрос, и вы выбрали 'Вопрос связан с инвентаризацией'!">
+                        <q type='rb' g_ans="Инвентаризация не запускается" ans = "Найдены расхождения**?**Не завершена приемка товаров**?**Не завершена отгрузка товаров" text="Четвертый вопрос-это последний вопрос и вы выбрали 'Инвентаризация не запускается'!">
+                        </q>
+                    </q>
+                </q>
+                <q type='le' g_ans="3" holder="first" text="If you Chose '3' ?">
+                    <q type='rb' ans = "CustomAnswer**?**OptimalAnswer**?**Ideal Answer" text="Line Edit first sibling, If you Chose 'EEE' ?">
+                        <q type='le' g_ans="3" holder="second" text="If you Chose '3' ?">
+                        </q>
+                    </q>
+                </q>
+                <q type='le' g_ans="4" holder="second" text="If you Chose '4' ?">
+                </q>
+            </q>
+        </questionnaire>
+        <questionnaire name='Problem with Personal computer'>
+            <q type='rb' ans = "2PC**?**3PC**?**4PC**?**5PC" text="111First"></q>
+        </questionnaire>
+        <questionnaire name='Questions about MS SQL'>
+            <q type='rb' ans = "2DB**?**3DB**?**4DB**?**5DB">___First
+                <q type='rb' g_ans="2" ans = "AAA**?**BBB**?**CCC**?**DDD" text="Secret question?">
+                    <q type='rb' g_ans="AAA" ans = "111**?**222**?**333**?**444" text="FinalQuestion11">
+                    </q>
+                </q>
+            </q>
+        </questionnaire>
+    </survey>
+</content>
