@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<content dataVersion="1">
+    <survey>
+        <questionnaire name="Issue with Mobile phone">
+            <q ans="2**?**3**?**4**?**5" text="This is your first question?" type="rb">
+                <q ans="AAA**?**BBB**?**CCC**?**DDD" g_ans="2" text="Second Question - If you chose '2' ?" type="rb">
+                    <q ans="111**?**222**?**333**?**333**?**44333**?**443**?**999" g_ans="AAA" text="Third Question - This is the pre-last question and you chose 'AAA'!" type="rb">
+                        <q ans="ANS1**?**ANS2**?**ANS3" g_ans="111" text="Fourth Question - This is the last question and you chose '111'!" type="rb">
+                        </q>
+                    </q>
+                </q>
+                <q g_ans="3" holder="first" text="If you Chose '3' ?" type="le">
+                    <q ans="CustomAnswer**?**OptimalAnswer**?**Ideal Answer" text="Line Edit first sibling, If you Chose 'EEE' ?" type="rb">
+                        <q g_ans="3" holder="second" text="If you Chose '3' ?" type="le">
+                        </q>
+                    </q>
+                </q>
+            </q>
+        </questionnaire>
+        <questionnaire name="Questions about MS SQL">
+            <q ans="2DB**?**3DB**?**4DB**?**5DB" type="rb">
+                <q ans="AAA**?**BBB**?**CCC**?**DDD" g_ans="2" text="Secret question?" type="rb">
+                    <q ans="111**?**222**?**333**?**444" g_ans="AAA" text="FinalQuestion11" type="rb">
+                        <q ans="нуууфрн" g_ans="333" text="руддщ" type="rb">
+                        </q>
+                    </q>
+                </q>
+            </q>
+        </questionnaire>
+    </survey>
+</content>
