@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'shell.ui'
 #
-# Created by: PyQt5 UI code generator 5.10.1
+# Created by: PyQt5 UI code generator 5.5.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -27,7 +27,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 437, 403))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 437, 388))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
@@ -54,7 +54,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.addLayout(self.gridLayout)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 459, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 459, 25))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -66,7 +66,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Telephone Assistant (TS)"))
         self.svIntoFile_btn.setText(_translate("MainWindow", "To save into file"))
         self.clipboard_btn.setText(_translate("MainWindow", "Copy into clipboard"))
         self.prevQues_btn.setText(_translate("MainWindow", "To previous question"))

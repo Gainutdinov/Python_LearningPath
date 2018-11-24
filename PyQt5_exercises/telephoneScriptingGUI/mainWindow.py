@@ -4,15 +4,15 @@ import os
 import io
 import time
 import subprocess
+import pyperclip
 from functools import partial
 import xml.dom.minidom
 import xml.etree.ElementTree as ET
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-from shell import *
-
-
+from shell import Ui_MainWindow
+from customDialogWin import SolutionDialogWindow
 
 
 class MyWin(QMainWindow):
@@ -35,7 +35,6 @@ class MyWin(QMainWindow):
         QWidget.__init__(self, parent)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-
 
         # self.ui.comboBox.currentIndexChanged.connect(self.selectSurvey, self.ui.comboBox.currentIndex())
         self.ui.qst_cmb.currentIndexChanged.connect(self.selectSurvey, self.ui.qst_cmb.currentIndex())
@@ -84,10 +83,10 @@ class MyWin(QMainWindow):
                     info +=wid.widget().text()
                     info +='<br/>\n'
         if infoIntoFile!=True:
-            subprocess.run(['clip.exe'], input=info.strip().encode('utf-16'), check=True)
+            pyperclip.copy(info)
+            #subprocess.run(['clip.exe'], input=info.strip().encode('utf-16'), check=True)
         else:
             return info
-        #print(clipb)
 
 
     def selectSurvey(self, currIndex):
@@ -127,7 +126,6 @@ class MyWin(QMainWindow):
 
 
     def nextButton(self, tag, i):
-        self.removeSpacer()
         self.qu_tag.append(tag) # this variable to store previous question tag :)
         if tag.get("type")=="rb":
             if self.bgrs[i-1].checkedButton() is not None:
@@ -137,13 +135,27 @@ class MyWin(QMainWindow):
                 buttonWhichWasClicked.setEnabled(False)
                 # if there is no proper question with proper answer
                 ques = []
+                slts = ''
                 for qu in tag.getchildren():
                     ques.append(qu.get("g_ans"))
+                    if qu.tag=='slt' and qu.get("g_ans")==self.bgrs[i-1].checkedButton().text():
+                        slts = qu.get("text")
                     #print(qu.get("g_ans"))
-                if len(tag.getchildren())!=0 and (self.bgrs[i-1].checkedButton().text() in ques):
+                #if len(tag.getchildren())!=0 and  (self.bgrs[i-1].checkedButton().text() in slts):
+                if slts:
+                    dialWin = SolutionDialogWindow(slts)
+                    dialWin.setModal(True)
+                    result = dialWin.exec()
+                    dialWin.show()
+                    #dialWin.resize(400,100)
+                    #QMessageBox.about(self, "Text title", "program definition")
+                    #self.ui.statusbar.showMessage('MAAAN you MADE IT!!!', 20000)
+                elif len(tag.getchildren())!=0 and (self.bgrs[i-1].checkedButton().text() in ques):
+                    self.removeSpacer()
                     desired_xml_sibling = ques.index(self.bgrs[i-1].checkedButton().text())
                     self.addWidgetsToInterface( tag[desired_xml_sibling] )
                     buttonWhichWasClicked.setParent(None)
+                    self.addSpacer()
                 else:
                     # make button disabled
                     self.ui.statusbar.showMessage("You have reached the end of the survey :)",20000)
@@ -162,11 +174,11 @@ class MyWin(QMainWindow):
         #print(last_widget.isEnabled())
         self.show()
         self.ui.scrollArea.ensureWidgetVisible(last_widget)
-        self.addSpacer() 
+        #self.addSpacer() 
         #QTimer.singleShot(0, partial(self.ui.scrollArea.ensureWidgetVisible, last_widget))
 
     def addSpacer(self):
-        self.spacer = QtWidgets.QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.spacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
         self.ui.scr_vrlt.addItem(self.spacer)
     
     def removeSpacer(self):
@@ -241,7 +253,6 @@ class MyWin(QMainWindow):
             print('I will not do it')
         print('goToPrevQuestion')
         # add here code to go for previous q_tag!!!!!!!!!!!!!!
-        
 
 
 if __name__ == "__main__":

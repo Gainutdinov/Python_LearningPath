@@ -58,12 +58,19 @@
             </q>
         </questionnaire>
         <questionnaire name='Problem with Personal computer'>
-            <q type='rb' ans = "2PC**?**3PC**?**4PC**?**5PC" text="111First"></q>
+            <q type='rb' ans = "2PC**?**3PC**?**4PC**?**5PC" text="111First">
+            </q>
         </questionnaire>
         <questionnaire name='Questions about MS SQL'>
-            <q type='rb' ans = "2DB**?**3DB**?**4DB**?**5DB">___First
-                <q type='rb' g_ans="2" ans = "AAA**?**BBB**?**CCC**?**DDD" text="Secret question?">
-                    <q type='rb' g_ans="AAA" ans = "111**?**222**?**333**?**444" text="FinalQuestion11">
+            <q type='rb' ans = "2DB**?**3DB">
+                <q type='rb' g_ans="2DB" ans = "AAA**?**BBB" text="Secret question?">
+                    <slt type='rb' g_ans='BBB' text='This is the solution for your issue'>
+                    </slt>      <!-- Experimental tag  -->
+                    <q type='rb' g_ans="AAA" ans = "111**?**222" text="FinalQuestion11">
+                    </q>
+                </q>
+                <q type='rb' g_ans="5DB" ans = "AAA**?**BBB" text="Secret question?">
+                    <q type='rb' g_ans="AAA" ans = "111**?**222" text="FinalQuestion11">
                     </q>
                 </q>
             </q>
