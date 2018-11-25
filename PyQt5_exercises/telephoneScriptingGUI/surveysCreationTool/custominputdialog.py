@@ -1,31 +1,42 @@
-from PyQt5.QtWidgets import *
+from PyQt5.QtWidgets import QDialog, QLabel, QLineEdit, QComboBox, QPushButton, QFormLayout, QMessageBox
 
-class inputdialogdemo(QDialog):
+class InputDialogWindow(QDialog):
     # def __init__(self, windowTitle, parent = None):
     #     super(inputdialogdemo, self).__init__(parent)
-    def __init__(self, winTitle, ansopts=None, parent=None):
+    def __init__(self, winTitle, slt=False, ansopts=None, parent=None):
+        super(InputDialogWindow, self).__init__(parent)
         QDialog.__init__(self, parent)
-        self.setWindowTitle(winTitle)
-
+        
+        self.slt = slt
+        print('slt --->', slt)        
         layout = QFormLayout()
-        self.lb = QLabel("Please write 'ans' attribute:")
-        #self.btn.clicked.connect(self.getItem)
-        self.le = QLineEdit()
-        self.le.setPlaceholderText("option1**?**option2**?**option3")
-        layout.addRow(self.lb,self.le)
+
+        if self.slt==False:
+            self.lb = QLabel("Please write 'ans' attribute:")
+            self.le = QLineEdit()
+            self.le.setPlaceholderText("option1**?**option2**?**option3")
+            layout.addRow(self.lb,self.le)
 
         self.lb1 = QLabel("Please write 'text' attribute:")
-        #self.btn1.clicked.connect(self.gettext)
         self.le1 = QLineEdit()
         self.le1.setPlaceholderText("This is the text of your question")
+        if self.slt==True:
+            self.le1.setPlaceholderText("This is the solution text")
         layout.addRow(self.lb1,self.le1)
 
-        if winTitle=="Secondary question in questionnaire":
+        if winTitle=="Secondary question in questionnaire" and self.slt==False:
             self.lb3 = QLabel("Please choose 'g_ans':")
             #self.btn1.clicked.connect(self.gettext)
             self.cb0 = QComboBox()
             self.cb0.addItems(ansopts.split("**?**"))
             layout.addRow(self.lb3,self.cb0)
+        elif self.slt==True:
+            self.le1.setPlaceholderText("Text of the solution")
+            self.lb3 = QLabel("Please choose 'g_ans'")
+            self.cb0 = QComboBox()
+            self.cb0.addItems(ansopts.split("**?**"))
+            layout.addRow(self.lb3, self.cb0)
+
 
         self.lb2 = QLabel("please choose 'type' of the question")
         #self.btn1.clicked.connect(self.gettext)
@@ -35,7 +46,7 @@ class inputdialogdemo(QDialog):
 
 
         self.btn1 = QPushButton("Create tag")
-        self.btn1.clicked.connect(self.validateInfo)
+        self.btn1.clicked.connect( lambda: (self.validateInfo(self.slt)) )
         self.btn2 = QPushButton("Cancel")
         self.btn2.clicked.connect(self.reject)
         #self.btn2.clicked.connect(self.getint)
@@ -44,13 +55,11 @@ class inputdialogdemo(QDialog):
         #self.setWindowTitle(windowTitle)
     
 
-    def validateInfo(self):
+    def validateInfo(self, sltCheck=False):
         print('validating information which you typed...')
-        if self.le.text() and self.le1.text():
+        if (sltCheck==True and self.le1.text()):
+            self.accept()
+        elif (sltCheck==False and self.le1.text() and self.le.text()):
             self.accept()
         else:
             QMessageBox.warning(self, "Insufficient information", "Please fill all the fields",buttons=QMessageBox.Close, defaultButton=QMessageBox.Close)
-            #print('bad')
-        #print(self.le.text())
-        #print(self.le1.text())
-        #self.close()

@@ -1,21 +1,21 @@
 # -*- coding: utf-8 -*-
-from PyQt5.QtWidgets import *
+from PyQt5.QtWidgets import QDialog, QLabel, QLineEdit, QComboBox, QPushButton, QFormLayout, QMessageBox, QMainWindow, QApplication, QWidget, QMenu, QInputDialog
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import sys
 import os
 from shell_ui import *
 import xml.etree.ElementTree as ET
-from custominputdialog import inputdialogdemo
+from custominputdialog import InputDialogWindow
 
 class MyWin(QMainWindow):    
 
     def __init__(self, parent=None):
-        QWidget.__init__(self, parent)
+        super(MyWin, self).__init__(parent)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.getValue_btn.clicked.connect(self.readToDom)
-        self.ui.obtainSel_btn.clicked.connect(self.ContentShow)
+        self.ui.obtainSel_btn.clicked.connect(self.showQTagInfo)
         self.ui.insertQsre_btn.clicked.connect(self.newQstre)
 
         self.file = os.getcwd() + os.sep + 'Surveys.xml'
@@ -33,13 +33,10 @@ class MyWin(QMainWindow):
         model.setHeaderData(4, Qt.Horizontal, "type")
         self.ui.xml_trView.setModel(model)
 
-        # set button context menu policy
-        self.ui.getValue_btn.setContextMenuPolicy(Qt.CustomContextMenu)
-        self.ui.getValue_btn.customContextMenuRequested.connect(self.on_context_menu)
-
         # create context menu
         self.popMenu = QMenu(self)
         self.popMenu.addAction('Add <q>...</q>', self.addQTag)
+        self.popMenu.addAction('Add <slt>...</slt>', self.addSltTag)
         self.popMenu.addSeparator()
         self.popMenu.addAction('Remove <q>...</q>', self.removeQTag)
         self.popMenu.addAction('Show info <q>...</q>', self.showQTagInfo)
@@ -50,11 +47,6 @@ class MyWin(QMainWindow):
         self.ui.xml_trView.setContextMenuPolicy(Qt.CustomContextMenu)
         self.ui.xml_trView.customContextMenuRequested.connect(self.on_context_menu_tree)
       
-
-    def on_context_menu(self, point):
-        # show context menu
-        #print('on_context_menu')
-        self.popMenu.exec_(self.ui.getValue_btn.mapToGlobal(point))        
 
     def on_context_menu_tree(self, point):
         # show context menu
@@ -75,7 +67,9 @@ class MyWin(QMainWindow):
             def innerLook(listOfTags, dash_number, _item, _parent):
                 _parent = _item
                 for tag in listOfTags:
-                    _item = QStandardItem(tag.tag)
+                    # tagWithText = tag.tag, ' - ', tag.attrib['text']
+
+                    _item = QStandardItem(tag.tag+' - '+tag.attrib['text'])
                     _item.setData(tag)
                     _parent.appendRow(_item)
                     #_parent = _item
@@ -84,27 +78,13 @@ class MyWin(QMainWindow):
                         innerLook(list(tag),dash_number+1, _item, _parent)
                 #print()
 
-
-            #print("----------------")
-            #print(root.tag)
-            for sub_root in list(root[0]):
-                # print(chara + sub_root.tag)
-                if list(sub_root):
-                    pass
-                else:
-                    pass
-                    #print(sub_root)
-
-            for el in self.tree.iter():
-                pass
-
             model = QStandardItemModel()
 
             parent = model.invisibleRootItem()
             parent.setData('DATAAAAAA')
 
             for sub_root in list(root[0]):
-                item = QStandardItem(chara + sub_root.tag)
+                item = QStandardItem(chara + sub_root.tag + ' - ' + sub_root.attrib['name'])
                 item.setData(sub_root)
                 #print(chara + sub_root.tag,'+++')
                 parent.appendRow(item)
@@ -136,19 +116,15 @@ class MyWin(QMainWindow):
         if self.ui.xml_trView.selectedIndexes():
             e = self.ContentShow()
             par = self.parent_map.get(e)
-            if par.tag == "questionnaire":
-                ex = inputdialogdemo("Secondary question in questionnaire", e.attrib['ans'])
+            if e.tag == 'slt':
+                QMessageBox.warning(self, "'slt' tag creation failure",  "You cannot create <q></> as a child element of the 'slt' tag!")
+            elif par.tag == "questionnaire":
+                ex = InputDialogWindow("Secondary question in questionnaire", False, e.attrib['ans'])
                 ex.setModal(True)
                 ex.show()
                 ex.resize(400,100)
-                result = ex.exec_()
+                result = ex.exec()
                 if result:
-                    index_ = self.ui.xml_trView.selectedIndexes()[0] 
-                    crawler_ = index_.model().itemFromIndex(index_)
-                    item = QStandardItem("q")
-                    crawler_.appendRow(item)
-
-                    #par = self.parent_map.get(e)
                     child = ET.Element("q")
 
                     ex.lb.text()
@@ -158,22 +134,23 @@ class MyWin(QMainWindow):
                     child.set('ans', ex.le.text())
                     child.set('text', ex.le1.text())
                     child.set('type', ex.cb.currentText())
-                    item.setData(child)
 
                     e.append(child)
+
+                    index_ = self.ui.xml_trView.selectedIndexes()[0] 
+                    crawler_ = index_.model().itemFromIndex(index_)
+                    item = QStandardItem('q'+' - '+ child.attrib['text'])
+                    item.setData(child)
+                    crawler_.appendRow(item)
                     self.parent_map.update({child: e})
             elif e.tag == "q":
-                ex = inputdialogdemo("Secondary question in questionnaire", e.attrib['ans'])
+                #print(e.attrib['text'])
+                ex = InputDialogWindow("Secondary question in questionnaire", False, e.attrib['ans'])
                 ex.setModal(True)
                 ex.show()
                 ex.resize(400,100)
-                result = ex.exec_()
+                result = ex.exec()
                 if result:
-                    index_ = self.ui.xml_trView.selectedIndexes()[0] 
-                    crawler_ = index_.model().itemFromIndex(index_)
-                    item = QStandardItem("q")
-                    crawler_.appendRow(item)
-
                     #par = self.parent_map.get(e)
                     child = ET.Element("q")
 
@@ -184,35 +161,71 @@ class MyWin(QMainWindow):
                     child.set('ans', ex.le.text())
                     child.set('text', ex.le1.text())
                     child.set('type', ex.cb.currentText())
-                    item.setData(child)
 
                     e.append(child)
+                    index_ = self.ui.xml_trView.selectedIndexes()[0] 
+                    crawler_ = index_.model().itemFromIndex(index_)
+                    item = QStandardItem('q'+' - '+ child.attrib['text'])
+                    item.setData(child)
+                    crawler_.appendRow(item)
                     self.parent_map.update({child: e})
             elif par.tag == "survey":
-                ex = inputdialogdemo("Primary question in questionnaire")
-                #ex = inputdialogdemo("Secondary question in questionnaire", e.attrib['ans'])
+                ex = InputDialogWindow("Primary question in questionnaire", False)
+                #ex = InputDialogWindow("Secondary question in questionnaire", e.attrib['ans'])
                 ex.setModal(True)
                 ex.show()
                 ex.resize(400,100)
-                result = ex.exec_()
+                result = ex.exec()
                 if result:
-                    index_ = self.ui.xml_trView.selectedIndexes()[0] 
-                    crawler_ = index_.model().itemFromIndex(index_)
-                    item = QStandardItem("q")
-                    crawler_.appendRow(item)
 
                     # par = self.parent_map.get(e)
                     child = ET.Element("q")
                     child.set('ans', ex.le.text())
                     child.set('text', ex.le1.text())
                     child.set('type', ex.cb.currentText())
-                    item.setData(child)
 
                     e.append(child)
+                    index_ = self.ui.xml_trView.selectedIndexes()[0] 
+                    crawler_ = index_.model().itemFromIndex(index_)
+                    item = QStandardItem('q'+' - '+ child.attrib['text'])
+                    item.setData(child)
+                    crawler_.appendRow(item)
                     self.parent_map.update({child: e})
 
                 #print(ex.le.text(),'returned code', result)
 
+    def addSltTag(self):
+        # insert option if parent element is a <SLT></SLT> tag then we should not be able to create the element.
+        if self.ui.xml_trView.selectedIndexes():
+            e = self.ContentShow()
+            print(e)
+            par = self.parent_map.get(e)
+            if e.tag == "slt" or e.tag=="questionnaire":
+                QMessageBox.warning(self, "'slt' tag creation failure",  "You cannot create <slt></> as a child element of the 'slt' tag!")
+            elif par.tag=="questionnaire" or e.tag == "q":
+                ex = InputDialogWindow("This is the solution tag", True, e.attrib['ans'])
+                ex.setModal(True)
+                ex.resize(400,100)
+                ex.show()
+                result = ex.exec()
+                if result:
+                    #par = self.parent_map.get(e)
+                    child = ET.Element("slt")
+                    #ss = ss.replace("\"", "")
+
+                    child.set('g_ans', ex.cb0.currentText())
+                    child.set('text', ex.le1.text())
+                    child.set('type', ex.cb.currentText())
+
+                    e.append(child)
+                    index_ = self.ui.xml_trView.selectedIndexes()[0] 
+                    crawler_ = index_.model().itemFromIndex(index_)
+                    item = QStandardItem('slt'+' - '+ child.attrib['text'])
+                    item.setData(child)
+                    crawler_.appendRow(item)
+                    self.parent_map.update({child: e})
+            elif par.tag == "survey":
+                QMessageBox.warning(self, "'slt' tag creation failure",  "You cannot create <slt></> tag here ")
     def showQTagInfo(self):
         if self.ui.xml_trView.selectedIndexes():
             tagElement = self.ContentShow()
@@ -229,8 +242,8 @@ class MyWin(QMainWindow):
         if self.ui.xml_trView.selectedIndexes():
             index = self.ui.xml_trView.selectedIndexes()[0]   
             crawler = index.model().itemFromIndex(index)
-            #print('!!!','!!!','!!!',crawler)
-            #print('!!!','!!!',crawler.rowCount())
+            # print('!!!','!!!','!!!',crawler)
+            # print('!!!','!!!',crawler.rowCount())
             # print('parent!!!!!',crawler.parent())
 
             if crawler.parent() is not None:
@@ -246,7 +259,6 @@ class MyWin(QMainWindow):
         # print('XML file was saved')
 
     def newQstre(self):
-
         text, okPressed = QInputDialog.getText(self, "New 'questionnaire'","Name of :'questionnaire'", QLineEdit.Normal)
         while okPressed and text == '':
             text, okPressed = QInputDialog.getText(self, "New 'questionnaire'","Name of :'questionnaire'", QLineEdit.Normal)
@@ -255,9 +267,9 @@ class MyWin(QMainWindow):
             newXMLNode.set('name', text)
             self.parent_map.update({newXMLNode: self.tree.getroot()[0]})
             parent = self.roditel_
-            item = QStandardItem('\_questionnaire')
+            item = QStandardItem('\_questionnaire'+' - ' + newXMLNode.attrib['name'])
             item.setData(newXMLNode)
-            item.setData('sub_root')
+            #item.setData('sub_root')
             parent.appendRow(item)
             self.tree.getroot()[0].append(newXMLNode)
 
@@ -268,6 +280,8 @@ class MyWin(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
+    ico = QWidget().style().standardIcon(QtWidgets.QStyle.SP_FileDialogContentsView)
+    app.setWindowIcon(ico)
     w = MyWin()
     w.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

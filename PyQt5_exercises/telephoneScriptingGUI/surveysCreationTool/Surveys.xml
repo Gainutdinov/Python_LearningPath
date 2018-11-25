@@ -1,31 +1,31 @@
 <?xml version='1.0' encoding='utf-8'?>
 <content dataVersion="1">
     <survey>
-        <questionnaire name="Issue with Mobile phone">
-            <q ans="2**?**3**?**4**?**5" text="This is your first question?" type="rb">
-                <q ans="AAA**?**BBB**?**CCC**?**DDD" g_ans="2" text="Second Question - If you chose '2' ?" type="rb">
-                    <q ans="111**?**222**?**333**?**333**?**44333**?**443**?**999" g_ans="AAA" text="Third Question - This is the pre-last question and you chose 'AAA'!" type="rb">
-                        <q ans="ANS1**?**ANS2**?**ANS3" g_ans="111" text="Fourth Question - This is the last question and you chose '111'!" type="rb">
+        <questionnaire name="ФОБО">
+            <q ans="SALES**?**LOGISTICS**?**REPORTER**?**BACK OFFICE**?**5" text="В каком модуле произошла ошибка?" type="rb">
+                <q ans="Вопрос связан с инвентаризацией**?**Вопрос связан с отгрузкой товаров**?**Вопрос связан с приемкой товаров**?**Вопрос связан с списанием товаров" g_ans="LOGISTICS" text="Следующий вопрос - вы выбрали 'LOGISTICS' ?" type="rb">
+                    <q ans="Инвентаризация не запускается**?**Инвентаризация не завершается**?**333**?**333**?**44333**?**443**?**999" g_ans="Вопрос связан с инвентаризацией" text="Третий вопрос-это предпоследний вопрос, и вы выбрали 'Вопрос связан с инвентаризацией'!" type="rb">
+                        <q ans="Найдены расхождения**?**Не завершена приемка товаров**?**Не завершена отгрузка товаров" g_ans="Инвентаризация не запускается" text="Четвертый вопрос-это последний вопрос и вы выбрали 'Инвентаризация не запускается'!" type="rb">
                         </q>
-                    </q>
-                </q>
-                <q g_ans="3" holder="first" text="If you Chose '3' ?" type="le">
-                    <q ans="CustomAnswer**?**OptimalAnswer**?**Ideal Answer" text="Line Edit first sibling, If you Chose 'EEE' ?" type="rb">
-                        <q g_ans="3" holder="second" text="If you Chose '3' ?" type="le">
-                        </q>
+                        <slt g_ans="333" text="This is it :)" type="rb">
+                        </slt>
                     </q>
                 </q>
             </q>
         </questionnaire>
         <questionnaire name="Questions about MS SQL">
-            <q ans="2DB**?**3DB**?**4DB**?**5DB" type="rb">
-                <q ans="AAA**?**BBB**?**CCC**?**DDD" g_ans="2" text="Secret question?" type="rb">
-                    <q ans="111**?**222**?**333**?**444" g_ans="AAA" text="FinalQuestion11" type="rb">
-                        <q ans="нуууфрн" g_ans="333" text="руддщ" type="rb">
-                        </q>
+            <q ans="2DB**?**3DB" text="First secret question?" type="rb">
+                <q ans="AAA**?**BBB" g_ans="2DB" text="Secret question?" type="rb">
+                    <slt g_ans="BBB" text="This is the solution for your issue" type="rb">
+                    </slt>      
+                    <q ans="111**?**222" g_ans="AAA" text="FinalQuestion11" type="rb">
                     </q>
                 </q>
+                <q ans="AAA**?**BBB" g_ans="5DB" text="Secret question?" type="rb">
+                    <q ans="111**?**222" g_ans="AAA" text="FinalQuestion11" type="rb">
+                    <slt g_ans="111" text="this the solution" type="rb"></slt></q>
+                <slt g_ans="AAA" text="this is the solution2" type="rb"></slt></q>
             </q>
         </questionnaire>
-    </survey>
+        </survey>
 </content>

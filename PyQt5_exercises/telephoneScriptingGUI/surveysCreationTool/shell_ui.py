@@ -47,7 +47,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "SurveysCreationTool(CST)"))
         self.getValue_btn.setText(_translate("MainWindow", "Get value"))
         self.obtainSel_btn.setText(_translate("MainWindow", "Obtain selected tag value"))
         self.insertQsre_btn.setText(_translate("MainWindow", "Insert new questionnaire"))
