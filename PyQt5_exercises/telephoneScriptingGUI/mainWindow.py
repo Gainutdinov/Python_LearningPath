@@ -218,8 +218,9 @@ class MyWin(QMainWindow):
         f, l = QFileDialog.getSaveFileName(parent=w,
             caption="Заголовок окна", directory=QDir.homePath(),
             filter="All (*);;Text file (*.txt *.md)")
-        with open(f, 'w', encoding='utf-8') as file:
-            file.write(self.copyIntoClipboard(infoIntoFile=True))
+        if f:
+            with open(f, 'w', encoding='utf-8') as file:
+                file.write(self.copyIntoClipboard(infoIntoFile=True))
 
     def goToPrevQuestion(self):
         print(self.i)
@@ -258,5 +259,7 @@ class MyWin(QMainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     w = MyWin()
+    ico = QWidget().style().standardIcon(QStyle.SP_DialogHelpButton)
+    app.setWindowIcon(ico)
     w.show()
     sys.exit(app.exec_())
