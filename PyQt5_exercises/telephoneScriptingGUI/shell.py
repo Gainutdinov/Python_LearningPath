@@ -67,7 +67,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Telephone Assistant (TS)"))
-        self.svIntoFile_btn.setText(_translate("MainWindow", "To save into file"))
-        self.clipboard_btn.setText(_translate("MainWindow", "Copy into clipboard"))
-        self.prevQues_btn.setText(_translate("MainWindow", "To previous question"))
+        self.svIntoFile_btn.setText(_translate("MainWindow", "Сохранить в файл"))
+        self.clipboard_btn.setText(_translate("MainWindow", "Скопировать в буфер обмена"))
+        self.prevQues_btn.setText(_translate("MainWindow", "Перейти к пред. вопросу"))
 
