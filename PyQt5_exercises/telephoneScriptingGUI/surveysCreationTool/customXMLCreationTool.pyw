@@ -214,7 +214,7 @@ class MyWin(QMainWindow):
                     #ss = ss.replace("\"", "")
 
                     child.set('g_ans', ex.cb0.currentText())
-                    child.set('text', ex.le1.text())
+                    child.set('text', ex.le1.toPlainText())
                     child.set('type', ex.cb.currentText())
 
                     e.append(child)

@@ -23,7 +23,7 @@
                 </q>
                 <q ans="AAA**?**BBB" g_ans="5DB" text="Secret question?" type="rb">
                     <q ans="111**?**222" g_ans="AAA" text="FinalQuestion11" type="rb">
-                    <slt g_ans="111" text="this the solution" type="rb"></slt></q>
+                    <slt g_ans="111" text="this the solution" type="rb"></slt><slt g_ans="111" text="1.a;sdjf;a&#10;2.;lsjf;js&#10;3ljasd;fj" type="rb"></slt></q>
                 <slt g_ans="AAA" text="this is the solution2" type="rb"></slt></q>
             </q>
         </questionnaire>

@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QDialog, QLabel, QLineEdit, QComboBox, QPushButton, QFormLayout, QMessageBox
+from PyQt5.QtWidgets import QDialog, QLabel, QLineEdit, QComboBox, QPushButton, QFormLayout, QMessageBox, QPlainTextEdit
 
 class InputDialogWindow(QDialog):
     # def __init__(self, windowTitle, parent = None):
@@ -21,7 +21,7 @@ class InputDialogWindow(QDialog):
         self.le1 = QLineEdit()
         self.le1.setPlaceholderText("This is the text of your question")
         if self.slt==True:
-            self.le1.setPlaceholderText("This is the solution text")
+            self.le1 = QPlainTextEdit()
         layout.addRow(self.lb1,self.le1)
 
         if winTitle=="Secondary question in questionnaire" and self.slt==False:
@@ -57,7 +57,7 @@ class InputDialogWindow(QDialog):
 
     def validateInfo(self, sltCheck=False):
         print('validating information which you typed...')
-        if (sltCheck==True and self.le1.text()):
+        if (sltCheck==True and self.le1.toPlainText()):
             self.accept()
         elif (sltCheck==False and self.le1.text() and self.le.text()):
             self.accept()
