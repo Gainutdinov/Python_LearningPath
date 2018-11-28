@@ -35,12 +35,12 @@ class MyWin(QMainWindow):
 
         # create context menu
         self.popMenu = QMenu(self)
-        self.popMenu.addAction('Add <q>...</q>', self.addQTag)
-        self.popMenu.addAction('Add <slt>...</slt>', self.addSltTag)
+        self.popMenu.addAction('Добавить <q>...</q>', self.addQTag)
+        self.popMenu.addAction('Добавить <slt>...</slt>', self.addSltTag)
         self.popMenu.addSeparator()
-        self.popMenu.addAction('Remove <q>...</q>', self.removeQTag)
-        self.popMenu.addAction('Show info <q>...</q>', self.showQTagInfo)
-        self.popMenu.addAction('Save whole XML doc', self.saveXMLdoc)
+        self.popMenu.addAction('Удалить <q>...</q>', self.removeQTag)
+        self.popMenu.addAction('Показать информацию <q>...</q>', self.showQTagInfo)
+        self.popMenu.addAction('Сохранить XML документ', self.saveXMLdoc)
 
 
         # set treeview context menu policy
@@ -55,7 +55,7 @@ class MyWin(QMainWindow):
 
     def readToDom(self):
         if not os.path.isfile(self.file):
-            QMessageBox.warning(w, "File Error", "Не могу найти файл Surveys.xml в текущией директории",buttons=QtWidgets.QMessageBox.Close, defaultButton=QtWidgets.QMessageBox.Close)
+            QMessageBox.warning(w, "Ошибка файла", "Не могу найти файл Surveys.xml в текущией директории",buttons=QtWidgets.QMessageBox.Close, defaultButton=QtWidgets.QMessageBox.Close)
         else:
             self.tree = ET.parse(self.file)
             root = self.tree.getroot()
@@ -117,9 +117,9 @@ class MyWin(QMainWindow):
             e = self.ContentShow()
             par = self.parent_map.get(e)
             if e.tag == 'slt':
-                QMessageBox.warning(self, "'slt' tag creation failure",  "You cannot create <q></> as a child element of the 'slt' tag!")
+                QMessageBox.warning(self, "ошибка при создании тега 'slt'",  "Здесь нельзя создать тег <q></> под тегом 'slt'!")
             elif par.tag == "questionnaire":
-                ex = InputDialogWindow("Secondary question in questionnaire", False, e.attrib['ans'])
+                ex = InputDialogWindow("Вторичный вопрос в questionnaire", False, e.attrib['ans'])
                 ex.setModal(True)
                 ex.show()
                 ex.resize(400,100)
@@ -145,7 +145,7 @@ class MyWin(QMainWindow):
                     self.parent_map.update({child: e})
             elif e.tag == "q":
                 #print(e.attrib['text'])
-                ex = InputDialogWindow("Secondary question in questionnaire", False, e.attrib['ans'])
+                ex = InputDialogWindow("Вторичный вопрос в questionnaire", False, e.attrib['ans'])
                 ex.setModal(True)
                 ex.show()
                 ex.resize(400,100)
@@ -170,7 +170,7 @@ class MyWin(QMainWindow):
                     crawler_.appendRow(item)
                     self.parent_map.update({child: e})
             elif par.tag == "survey":
-                ex = InputDialogWindow("Primary question in questionnaire", False)
+                ex = InputDialogWindow("Первый вопрос в questionnaire", False)
                 #ex = InputDialogWindow("Secondary question in questionnaire", e.attrib['ans'])
                 ex.setModal(True)
                 ex.show()
@@ -201,9 +201,9 @@ class MyWin(QMainWindow):
             print(e)
             par = self.parent_map.get(e)
             if e.tag == "slt" or e.tag=="questionnaire":
-                QMessageBox.warning(self, "'slt' tag creation failure",  "You cannot create <slt></> as a child element of the 'slt' tag!")
+                QMessageBox.warning(self, "ошибка при создании тега 'slt'",  "Создание тега <slt></> под элементом с тегом 'slt' невозможно!")
             elif par.tag=="questionnaire" or e.tag == "q":
-                ex = InputDialogWindow("This is the solution tag", True, e.attrib['ans'])
+                ex = InputDialogWindow("Этот тег <slt></slt> для ответа", True, e.attrib['ans'])
                 ex.setModal(True)
                 ex.resize(400,100)
                 ex.show()
@@ -225,11 +225,11 @@ class MyWin(QMainWindow):
                     crawler_.appendRow(item)
                     self.parent_map.update({child: e})
             elif par.tag == "survey":
-                QMessageBox.warning(self, "'slt' tag creation failure",  "You cannot create <slt></> tag here ")
+                QMessageBox.warning(self, "ошибка при создании тега 'slt'",  "Здесь нельзя создать <slt></> тег ")
     def showQTagInfo(self):
         if self.ui.xml_trView.selectedIndexes():
             tagElement = self.ContentShow()
-            QMessageBox.about(self, "Tag Info", '  {0} \n Tag: {1} \n <b>Tag attributes:</b> {2}'.format(tagElement, tagElement.tag, tagElement.attrib))
+            QMessageBox.about(self, "Информация по тегу", '  {0} \n Тег: {1} \n <b>Аттрибуты тега:</b> {2}'.format(tagElement, tagElement.tag, tagElement.attrib))
             #print(tagElement,'---', tagElement.tag, '---', tagElement.attrib)
     
     def removeQTag(self):
@@ -255,13 +255,13 @@ class MyWin(QMainWindow):
 
     def saveXMLdoc(self):
         self.tree.write(self.file, encoding="utf-8", xml_declaration=True, short_empty_elements=False)
-        QMessageBox.information(w, "Surveys.xml saving...", "Surveys.xml was saved", buttons=QMessageBox.Close, defaultButton=QMessageBox.Close)
+        QMessageBox.information(w, "Surveys.xml сохраняется...", "Surveys.xml был сохранен", buttons=QMessageBox.Close, defaultButton=QMessageBox.Close)
         # print('XML file was saved')
 
     def newQstre(self):
-        text, okPressed = QInputDialog.getText(self, "New 'questionnaire'","Name of :'questionnaire'", QLineEdit.Normal)
+        text, okPressed = QInputDialog.getText(self, "Новый 'questionnaire'","Имя для опросника :'questionnaire'", QLineEdit.Normal)
         while okPressed and text == '':
-            text, okPressed = QInputDialog.getText(self, "New 'questionnaire'","Name of :'questionnaire'", QLineEdit.Normal)
+            text, okPressed = QInputDialog.getText(self, "Новый 'questionnaire'","Имя для опросника :'questionnaire'", QLineEdit.Normal)
         if okPressed:
             newXMLNode = ET.Element("questionnaire")
             newXMLNode.set('name', text)

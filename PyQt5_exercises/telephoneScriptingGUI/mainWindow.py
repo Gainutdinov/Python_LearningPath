@@ -158,7 +158,7 @@ class MyWin(QMainWindow):
                     self.addSpacer()
                 else:
                     # make button disabled
-                    self.ui.statusbar.showMessage("You have reached the end of the survey :)",20000)
+                    self.ui.statusbar.showMessage("Вы достигли конца опросника :)",20000)
         elif tag.get("type")=="le":
             if self.lEdit.text()!="":
                 print("is not None")
@@ -169,7 +169,7 @@ class MyWin(QMainWindow):
                     self.addWidgetsToInterface((tag.getchildren())[0])
                     buttonWhichWasClicked.setParent(None)
                 else:
-                    self.ui.statusbar.showMessage("You have reached the end of the survey :)",20000)
+                    self.ui.statusbar.showMessage("Вы достигли конца опросника :)",20000)
         last_widget = self.ui.scr_vrlt.itemAt(self.ui.scr_vrlt.count()-1).widget()
         #print(last_widget.isEnabled())
         self.show()
@@ -251,8 +251,8 @@ class MyWin(QMainWindow):
             self.addSpacer()
             self.qu_tag.pop(-1)
         else:
-            print('I will not do it')
-        print('goToPrevQuestion')
+            print('Я не буду это делать')
+        print('перейтиКПредВопросу')
         # add here code to go for previous q_tag!!!!!!!!!!!!!!
 
 
