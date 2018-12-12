@@ -8,6 +8,7 @@ class editorSceneClass(QGraphicsScene):
         super(editorSceneClass, self).__init__()
         self.setSceneRect(-1000, -1000, 2000, 2000)
         self.grid = 30
+        self.addNode()
 
     def drawBackground(self, painter, rect):
         if False:
@@ -25,3 +26,21 @@ class editorSceneClass(QGraphicsScene):
         
         painter.setPen(QPen(QColor(100,100,100), 1))
         painter.drawLines(lines)
+
+    def addNode(self, pos=False):
+        if not pos:
+            pos = QPoint(0, 0)
+        item = editorItem.editorItemClass(self.grid, (len(self.items())+1) )
+        self.addItem(item)
+        item.setPos(pos)
+    
+    def mouseDoubleClickEvent(self, event):
+        self.addNode(event.scenePos())
+        super(editorSceneClass, self).mouseDoubleClickEvent(event)
+    
+    def mouseReleaseEvent(self, event):
+        for i in self.items():
+            i.adjustpos()
+        for i in self.selectedItems():
+            i.checkCollision()
+        super(editorSceneClass, self).mouseReleaseEvent(event)
