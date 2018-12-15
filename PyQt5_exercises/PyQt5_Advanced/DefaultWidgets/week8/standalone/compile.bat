@@ -1,0 +1,1 @@
+call C:\Python35\Scripts\pyinstaller.exe widget.spec --onefile
