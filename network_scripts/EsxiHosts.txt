@@ -1,0 +1,3 @@
+EsxiHost1
+EsxiHost2
+EsxiHost3
