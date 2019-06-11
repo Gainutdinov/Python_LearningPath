@@ -66,20 +66,23 @@ for SWITCH in switches:
                 interfaces.append(_)
 
     for interface, status in zip(interfaces,interfacesStatuses):
-        words = re.findall(r'\w+', interface.replace("/", ""))
-        if words[2]=='down' or words[2]=='administratively' :
-            words = re.findall(r'\w+', status)
-            duration=words[2]
-            if duration=='never':
-                RESULT.append(str(SWITCH+'---'+interface+'---'+status))
-                #print(interface,'------',status)
-            elif 'w' in duration: # in case last input greater than 6 weeks
-                ind=duration.index('w')
-                if int(duration[0:ind]) >= 6:
+        if len(interface) != 1:
+            words = re.findall(r'\w+', interface.replace("/", ""))
+            if words[2]=='down' or words[2]=='administratively' :
+                words = re.findall(r'\w+', status)
+                duration=words[2]
+                if duration=='never':
                     RESULT.append(str(SWITCH+'---'+interface+'---'+status))
-                    #print(interface,'------',status)        
-                #period[0:3]
-                #print(interf,'------',status)
+                    #print(interface,'------',status)
+                elif 'y' in duration:
+                    RESULT.append(str(SWITCH+'---'+interface+'---'+status))
+                elif 'w' in duration: # in case last input greater than 6 weeks
+                    ind=duration.index('w')
+                    if int(duration[0:ind]) >= 6 :
+                        RESULT.append(str(SWITCH+'---'+interface+'---'+status))
+                        #print(interface,'------',status)        
+                    #period[0:3]
+                    #print(interf,'------',status)
 
     
 
